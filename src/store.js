@@ -4,11 +4,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  // 存储公共状态
   state: {
-
+    name: 'lx',
+    age: 22
   },
+  // 提交修改
   mutations: {
-
+    showPeople(state, mes) {
+      state.name = msg
+    } 
   },
   actions: {
 

@@ -1,0 +1,1 @@
+export const widthScreen = document.body.clientWidth
