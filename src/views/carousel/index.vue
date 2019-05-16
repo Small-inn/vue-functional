@@ -11,7 +11,7 @@ export default {
         carousel
     },
     created() {
-        console.log(widthScreen)
+        // console.log(widthScreen)
     }
 }
 </script>

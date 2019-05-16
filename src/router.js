@@ -27,6 +27,13 @@ const routes = [
     meta: {
       title: '轮播'
     }
+  },
+  {
+    path: '/loadmore',
+    component: () => import('./views/loadmore/index.vue'),
+    meta: {
+      title: '更多'
+    }
   }
 ]
 export default routes

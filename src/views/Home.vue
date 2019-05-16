@@ -13,7 +13,7 @@ export default {
             linkList: [
                 { path: '/calendar', title: '日历' },
                 { path: '/carousel', title: '轮播' },
-                { path: '/', title: '上滑' },
+                { path: '/loadmore', title: '上滑' },
                 { path: '/', title: '下拉' },
                 { path: '/', title: '抽奖' },
                 { path: '/', title: '上传' },

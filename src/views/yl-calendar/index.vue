@@ -6,7 +6,6 @@
 </template>
 <script>
 import calendar from './calendar'
-import { setTimeout } from 'timers';
 export default {
     components: {
         calendar
