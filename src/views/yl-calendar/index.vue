@@ -7,28 +7,28 @@
 <script>
 import calendar from './calendar'
 export default {
-    components: {
-        calendar
-    },
-    created() {
-        console.log(this)
-        console.log(this.$store.state.name) 
-        this.$bus.$emit('loading', true)
-        this._loading()
-    },
-    methods: {
-        _loading() {
-            setTimeout(() => {
-                this.$bus.$emit('loading', false)
-            }, 1500)
-        }
+  components: {
+    calendar
+  },
+  created () {
+    console.log(this)
+    console.log(this.$store.state.name)
+    this.$bus.$emit('loading', true)
+    this._loading()
+  },
+  methods: {
+    _loading () {
+      setTimeout(() => {
+        this.$bus.$emit('loading', false)
+      }, 1500)
     }
+  }
 }
 </script>
 <style lang="stylus" scoped>
 .contain
     padding-top .4rem
-.return-contain 
+.return-contain
     width 100%
     display flex
     justify-content center

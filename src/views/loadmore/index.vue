@@ -6,9 +6,9 @@
 <script>
 import loadmore from './child.vue'
 export default {
-    components: {
-       loadmore 
-    }
+  components: {
+    loadmore
+  }
 }
 </script>
 <style lang="stylus" scoped>

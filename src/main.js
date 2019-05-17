@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import App from './App.vue'
 import routes from './router'
-import store from './store'
+import store from './store/index'
 
 import '@/assets/css/index.styl'
 
@@ -15,7 +15,7 @@ Calendar.install(Vue)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$bus = new Vue
+Vue.prototype.$bus = new Vue()
 
 Vue.use(Router)
 
@@ -28,7 +28,6 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title
   window.scroll(0, 0)
 })
-
 
 new Vue({
   router,

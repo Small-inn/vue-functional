@@ -11,9 +11,9 @@ export default new Vuex.Store({
   },
   // 提交修改
   mutations: {
-    showPeople(state, mes) {
+    showPeople (state, msg) {
       state.name = msg
-    } 
+    }
   },
   actions: {
 

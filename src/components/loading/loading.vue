@@ -8,16 +8,16 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            loading: false
-        }
-    },
-    created() {
-        this.$bus.$on('loading', (data) => {
-            this.loading = !!data
-        })
+  data () {
+    return {
+      loading: false
     }
+  },
+  created () {
+    this.$bus.$on('loading', (data) => {
+      this.loading = !!data
+    })
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -37,7 +37,7 @@ export default {
         height 100%
         color #ffffff
         background-color rgba(0, 0, 0, .5)
-        img 
+        img
             width .4rem /* 20/50 */
             height .4rem /* 20/50 */
 </style>

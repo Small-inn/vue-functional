@@ -1,5 +1,4 @@
-import home from './views/home'
-
+import home from './views/Home'
 
 const routes = [
   {
@@ -20,7 +19,7 @@ const routes = [
     meta: {
       title: '日历'
     }
-  }, 
+  },
   {
     path: '/carousel',
     component: () => import('./views/carousel/index.vue'),
@@ -37,4 +36,3 @@ const routes = [
   }
 ]
 export default routes
-

@@ -1,7 +1,7 @@
 <template>
     <div class="calendar">
         <div class="text" @click="visible">日历区间</div>
-        <nut-calendar 
+        <nut-calendar
             :is-visible="isVisible"
             :default-value="date"
             type="range"
@@ -16,21 +16,21 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            isVisible: false,
-            date: null
-        }
-    },
-    methods: {
-        visible() {
-            this.isVisible = true
-        },
-        switchPicker() {
-            this.isVisible = false
-        },
-        setChooseValue() {}
+  data () {
+    return {
+      isVisible: false,
+      date: null
     }
+  },
+  methods: {
+    visible () {
+      this.isVisible = true
+    },
+    switchPicker () {
+      this.isVisible = false
+    },
+    setChooseValue () {}
+  }
 }
 </script>
 <style lang="stylus" scoped>

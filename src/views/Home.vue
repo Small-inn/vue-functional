@@ -8,25 +8,25 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            linkList: [
-                { path: '/calendar', title: '日历' },
-                { path: '/carousel', title: '轮播' },
-                { path: '/loadmore', title: '上滑' },
-                { path: '/', title: '下拉' },
-                { path: '/', title: '抽奖' },
-                { path: '/', title: '上传' },
-                { path: '/', title: '时间' },
-                { path: '/', title: '数据' },
-            ]
-        }
-    },
-    created() {
-        // console.log(this)
-        // this.$bus.$emit('loading', true)
-        this.$bus.$emit('loading')
+  data () {
+    return {
+      linkList: [
+        { path: '/calendar', title: '日历' },
+        { path: '/carousel', title: '轮播' },
+        { path: '/loadmore', title: '上滑' },
+        { path: '/', title: '下拉' },
+        { path: '/', title: '抽奖' },
+        { path: '/', title: '上传' },
+        { path: '/', title: '时间' },
+        { path: '/', title: '数据' }
+      ]
     }
+  },
+  created () {
+    // console.log(this)
+    // this.$bus.$emit('loading', true)
+    this.$bus.$emit('loading')
+  }
 }
 </script>
 <style lang="stylus" scoped>
