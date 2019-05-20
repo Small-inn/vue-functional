@@ -33,6 +33,13 @@ const routes = [
     meta: {
       title: '更多'
     }
+  },
+  {
+    path: '/vuex',
+    component: () => import('./views/vuex-test/index.vue'),
+    meta: {
+      title: '状态管理'
+    }
   }
 ]
 export default routes
