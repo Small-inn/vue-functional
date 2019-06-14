@@ -28,6 +28,13 @@ const routes = [
     }
   },
   {
+    path: '/upload',
+    component: () => import('./views/upload/index.vue'),
+    meta: {
+      title: '上传'
+    }
+  },
+  {
     path: '/loadmore',
     component: () => import('./views/loadmore/index.vue'),
     meta: {

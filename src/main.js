@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import App from './App.vue'
 import routes from './router'
 import store from './store/index'
+import axios from 'axios'
 
 import '@/assets/css/index.styl'
 
@@ -12,6 +13,12 @@ import '@nutui/nutui/dist/nutui.css'
 
 import { Calendar } from '@nutui/nutui'
 Calendar.install(Vue)
+
+// 创建一个不被拦截的axios实例，用于文件上传
+let instance = axios.create({
+  headers: { 'Content-Type':'multipart/form-data' }
+})
+Vue.prototype.instance = instance
 
 Vue.config.productionTip = false
 
