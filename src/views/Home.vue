@@ -16,10 +16,10 @@ export default {
         { path: '/loadmore', title: '上滑' },
         { path: '/', title: '下拉' },
         { path: '/', title: '抽奖' },
-        { path: '/', title: '上传' },
+        { path: '/upload', title: '上传' },
         { path: '/', title: '时间' },
         { path: '/', title: '数据' },
-        { path: '/vuex', title: '状态' },
+        { path: '/vuex', title: '状态' }
       ]
     }
   },

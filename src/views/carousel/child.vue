@@ -5,6 +5,9 @@
                 <img :src="item.url" alt="">
             </li>
         </ul>
+        <ul class="circle">
+          <li class="circle-item" :class="[ centrePointIndex === index ? 'active' : '' ]" v-for="(item, index) in list.length" :key="index"></li>
+        </ul>
     </div>
 </template>
 <script>
@@ -25,6 +28,8 @@ export default {
         center: 0,
         right: 1
       },
+      // 焦点
+      centrePointIndex: 0,
       // 距离
       distance: {
         screenWidth: widthScreen,
@@ -80,6 +85,7 @@ export default {
         this.setTransition(true, true, true)
         this.setTranslateX()
       }
+      this.autoPlay()
     },
     // 下一张逻辑
     nextShow () {
@@ -93,6 +99,7 @@ export default {
 
       this.setTransition(true, true, false)
       this.setTranslateX()
+      this.centrePointIndex = this.position.center
       // console.log(this.position.center)
     },
     // 上一张逻辑
@@ -106,6 +113,7 @@ export default {
 
       this.setTransition(false, true, true)
       this.setTranslateX()
+      this.centrePointIndex = this.position.center
       // console.log(this.position.center)
     },
     // 移动
@@ -156,6 +164,23 @@ export default {
             img
                 width 100%
                 height 170px
+    .circle
+      position absolute
+      bottom .2rem /* 10/50 */
+      left 50%
+      transform translateX(-50%)
+      width 160px
+      display flex
+      justify-content space-around
+      .circle-item
+        width .2rem /* 10/50 */
+        height .2rem /* 10/50 */
+        border-radius 50%
+        border 1px solid #cccccc
+        background-color #ffffff
+      .active
+        border 1px solid red
+        background-color #ccc
     .transitionAll
         transition all .3s ease-out
 </style>
