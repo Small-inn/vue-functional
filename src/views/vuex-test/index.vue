@@ -1,8 +1,8 @@
 <template>
-    <div class="vuex">
-        <button @click="ADD_COUNT">按钮</button>
-        <div>{{shopCount}}</div>
-    </div>
+  <div class="vuex">
+    <button @click="ADD_COUNT">按钮</button>
+    <div>{{shopCount}}</div>
+  </div>
 </template>
 <script>
 import { mapGetters, mapMutations } from 'vuex'
@@ -10,7 +10,7 @@ export default {
   computed: {
     ...mapGetters(['shopCount'])
   },
-  mounted () {
+  mounted() {
     console.log(this.shopCount)
   },
   methods: {
@@ -19,6 +19,4 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-
-</style>
+<style lang="stylus" scoped></style>

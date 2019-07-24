@@ -1,6 +1,6 @@
 const app = {
   state: {
-    username: '',
+    username: 'lx',
     role: '',
     id: 0,
     shopCount: 0

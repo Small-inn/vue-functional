@@ -16,7 +16,7 @@ Calendar.install(Vue)
 
 // 创建一个不被拦截的axios实例，用于文件上传
 let instance = axios.create({
-  headers: { 'Content-Type':'multipart/form-data' }
+  headers: { 'Content-Type': 'multipart/form-data' }
 })
 Vue.prototype.instance = instance
 
@@ -27,7 +27,18 @@ Vue.prototype.$bus = new Vue()
 Vue.use(Router)
 
 const router = new Router({
-  routes
+  routes,
+  // 切换路由使页面滚动到原先的位置，这个功能只能在支持history.pushState的浏览器中使用
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      if (from.meta.keepAlive) {
+        from.meta.savedPosition = document.body.scrollTop
+      }
+      return { x: 0, y: to.meta.savedPosition || 0 }
+    }
+  }
 })
 
 router.beforeEach((to, from, next) => {
