@@ -13,7 +13,7 @@ export default {
       loading: false
     }
   },
-  created () {
+  mounted () {
     this.$bus.$on('loading', (data) => {
       this.loading = !!data
     })
