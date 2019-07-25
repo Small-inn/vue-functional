@@ -7,11 +7,15 @@ import axios from 'axios'
 
 import '@/assets/css/index.styl'
 
+import moment from 'moment'
+import 'moment/locale/zh-cn' // 设定区域为中国
 // import NutUI from '@nutui/nutui'
 import '@nutui/nutui/dist/nutui.css'
 // NutUI.install(Vue)
 
 import { Calendar } from '@nutui/nutui'
+moment.locale('zh-cn') // 设定区域为中国
+
 Calendar.install(Vue)
 
 // 创建一个不被拦截的axios实例，用于文件上传
