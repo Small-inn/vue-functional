@@ -15,7 +15,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ './views/yl-calendar/index'),
+    component: () =>
+      import(/* webpackChunkName: "about" */ './views/yl-calendar/index'),
     meta: {
       title: '日历'
     }
@@ -46,6 +47,13 @@ const routes = [
     component: () => import('./views/vuex-test/index.vue'),
     meta: {
       title: '状态管理'
+    }
+  },
+  {
+    path: '/lottery',
+    component: () => import('./views/lottery/index.vue'),
+    meta: {
+      title: '抽奖'
     }
   }
 ]
