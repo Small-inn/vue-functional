@@ -1,12 +1,16 @@
 <template>
   <div class="time">
-    <p>{{time}}</p>
+    <p v-show="false">{{time}}</p>
+    <calendar></calendar>
   </div>
 </template>
 <script>
 import moment from 'moment'
+import calendar from './calendar'
 export default {
-
+  components: {
+    calendar
+  },
   data() {
     return {
       time: '',
