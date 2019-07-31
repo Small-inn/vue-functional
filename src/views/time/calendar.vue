@@ -146,6 +146,10 @@ export default {
           //   break
           // }
         }
+      } else {
+        this.currentDays.map(item => {
+          item.inRange = false
+        })
       }
       console.log(this.currentDays)
       // console.log(this.startTime + '===' + this.endTime)
@@ -195,6 +199,11 @@ export default {
         background-color: #fff;
       }
 
+      .today {
+        color: #3296FF;
+        background-color: #EBF5FF;
+      }
+
       .in-range {
         background-color: #fcd3cf;
       }
@@ -202,11 +211,6 @@ export default {
       .start-time, .end-time {
         color: #fff;
         background-color: red;
-      }
-
-      .today {
-        color: #3296FF;
-        background-color: #EBF5FF;
       }
 
       .next {
