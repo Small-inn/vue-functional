@@ -26,16 +26,16 @@ export default {
     files: {
       type: Array,
       required: true
-    },
+    }
   },
-  data() {
+  data () {
     return {
       CDN_BASE_URL,
       listImg: []
     }
   },
   methods: {
-    async onChange(event) {
+    async onChange (event) {
       console.log('上传中')
       this.listImg = []
       const list = this.$refs.input.files
@@ -49,17 +49,16 @@ export default {
       this.$emit('uploadend', this.listImg)
       this.resetInput()
     },
-    async submit(file) {
+    async submit (file) {
       const formData = new FormData()
       formData.append('file', file)
       try {
         return this.instance.post('http://ininwb.life.cntaiping.com/tpyl-taiping/user/commUpload', formData)
-      }
-      catch (err) {
+      } catch (err) {
         console.log(err)
       }
     },
-    resetInput() {
+    resetInput () {
       if (this.$refs.input) this.$refs.input.value = ''
     }
   }
@@ -78,4 +77,3 @@ export default {
     .input-file
       display none
 </style>
-

@@ -11,17 +11,17 @@ export default {
   components: {
     calendar
   },
-  data() {
+  data () {
     return {
       time: '',
       timer: null
     }
   },
-  created() {
+  created () {
     this.retTime()
   },
   methods: {
-    retTime() {
+    retTime () {
       // clearInterval(this.timer)
       this.timer = setInterval(() => {
         this.time = moment().format('YYYY-MM-DD HH:mm:ss')

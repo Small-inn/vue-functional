@@ -14,13 +14,13 @@ export default {
   components: {
     uploader
   },
-  data() {
+  data () {
     return {
       imgList: []
     }
   },
   methods: {
-    uploadEnd() {}
+    uploadEnd () {}
   }
 }
 </script>
@@ -28,4 +28,3 @@ export default {
 <style>
 
 </style>
-

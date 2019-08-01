@@ -43,13 +43,13 @@ export default {
       this.dy = e.touches[0].pageY
     },
     touchend (e) {
-      console.log(this.sy - this.dy);
+      console.log(this.sy - this.dy)
       if (this.sy - this.dy > this.trgY && scrollToBottom && this.status === 0) {
         this.page++
         this.load()
       }
     },
-    load() {
+    load () {
       this.status = 1
       let para = { page: this.page, size: 10 }
       // getData(para).then(res => {

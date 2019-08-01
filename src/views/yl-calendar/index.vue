@@ -16,14 +16,14 @@ export default {
   computed: {
     ...mapGetters(['username'])
   },
-  created() {
+  created () {
     console.log(this)
     console.log(this.username)
     this.$bus.$emit('loading', true)
     this._loading()
   },
   methods: {
-    _loading() {
+    _loading () {
       setTimeout(() => {
         this.$bus.$emit('loading', false)
       }, 1500)

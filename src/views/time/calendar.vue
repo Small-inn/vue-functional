@@ -47,7 +47,7 @@
 import moment from 'moment'
 import ChineseCalendar from '@/assets/js/ChineseCalendar.js'
 export default {
-  data() {
+  data () {
     return {
       weeks: ['日', '一', '二', '三', '四', '五', '六'],
       prevDays: [], // 补角，上个月的最后几天补到当前个月的1号
@@ -61,14 +61,14 @@ export default {
       currMonth: new Date().getMonth() + 1,
       currDay: new Date().getDate(), // 几号
       startTime: '', // 选择开始时间
-      endTime: '', // 选择结束时间
+      endTime: '' // 选择结束时间
     }
   },
-  mounted() {
+  mounted () {
     this.init(this.currYear, this.currMonth)
   },
   methods: {
-    init(year = 2019, month = 7) {
+    init (year = 2019, month = 7) {
       let currentMonthDays = new Date(year, month, 0).getDate()
 
       // 获取当前月份天数
@@ -79,7 +79,7 @@ export default {
         this.currentDays.push({
           date: moment(new Date(`${year}-${month}-${i + 1}`)).format('YYYY-MM-DD'),
           text: i + 1,
-          lunar: ChineseCalendar.date2lunar(new Date(`${year}-${month}-${i + 1}`)), //农历
+          lunar: ChineseCalendar.date2lunar(new Date(`${year}-${month}-${i + 1}`)), // 农历
           festival: ChineseCalendar.lunarFestival(new Date(`${year}-${month}-${i + 1}`)), // 节日
           term: ChineseCalendar.lunarTerm(new Date(`${year}-${month}-${i + 1}`)), // 节气
           // isToday: new Date(`${year}-${month}-${i + 1}`) === new Date(), // 是今天？
@@ -109,7 +109,7 @@ export default {
         })
       }
     },
-    select(curr) {
+    select (curr) {
       console.log(curr)
       // this.$set(curr, 'start', true)
       if (!this.startTime && !this.endTime) {

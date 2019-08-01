@@ -49,12 +49,12 @@ export default {
           spuName: '6球衣'
         }
       ],
-      reward_index: 0, //中奖物品的下标
-      rewardName: "", //中奖物品的名字
-      start_rotating_degree: 0, //初始旋转角度
-      rotate_angle: 0,//将要旋转的角度
-      rotate_transition: "transform 6s ease-in-out", //初始化选中的过度属性控制
-      click_flag: true //是否可以旋转抽奖
+      reward_index: 0, // 中奖物品的下标
+      rewardName: '', // 中奖物品的名字
+      start_rotating_degree: 0, // 初始旋转角度
+      rotate_angle: 0, // 将要旋转的角度
+      rotate_transition: 'transform 6s ease-in-out', // 初始化选中的过度属性控制
+      click_flag: true // 是否可以旋转抽奖
     }
   },
   methods: {
@@ -77,15 +77,15 @@ export default {
       let type = 0 // 默认为 0  转盘转动 1 箭头和转盘都转动(暂且遗留)
       let during_time = 6 // 默认为1s
       let result_index = index // 最终要旋转到哪一块，对应prize_list的下标
-      let result_angle = [330, 270, 210, 150, 90, 30] //最终会旋转到下标的位置所需要的度数
+      let result_angle = [330, 270, 210, 150, 90, 30] // 最终会旋转到下标的位置所需要的度数
       let rand_circle = 6 // 附加多转几圈，6
       // this.click_flag = false // 旋转结束前，不允许再次触发
       if (type === 0) {
         // 转动盘子
         let rotate_angle = this.start_rotating_degree + rand_circle * 360 + result_angle[result_index] - this.start_rotating_degree % 360 // 这里为计算旋转的角度，考虑第一次旋转后的结果
         this.start_rotating_degree = rotate_angle
-        this.rotate_angle = "rotate(" + rotate_angle + "deg)"
-        // // //转动指针,默认只旋转转盘，用户体验较好
+        this.rotate_angle = 'rotate(' + rotate_angle + 'deg)'
+        // 转动指针,默认只旋转转盘，用户体验较好
         // this.rotate_angle_pointer = "rotate("+this.start_rotating_degree_pointer + 360*rand_circle+"deg)";
         // this.start_rotating_degree_pointer =360*rand_circle;
         // let _this = this;
@@ -93,7 +93,7 @@ export default {
         setTimeout(() => {
           // this.click_flag = true
           // _this.rotate_over(rewardName)
-        }, during_time * 1000 + 500); // 延时，保证转盘转完
+        }, during_time * 1000 + 500) // 延时，保证转盘转完
       } else {
         //
       }

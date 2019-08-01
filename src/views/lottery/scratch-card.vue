@@ -11,57 +11,57 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      desc: "ads",
-      awardName: "fsasfdas",
+      desc: 'ads',
+      awardName: 'fsasfdas',
       c: null,
       ctx: null,
       fontem: null,
       isCanvas: true, // 控制canvas的显示与隐藏
       timerClear: null
-    };
+    }
   },
-  mounted() {
+  mounted () {
     // this._isTryToGet();
   },
-  created() {
+  created () {
     this.$nextTick(() => {
       this.fontem = parseInt(
-        window.getComputedStyle(document.documentElement, null)["font-size"]
+        window.getComputedStyle(document.documentElement, null)['font-size']
       )
       // 初始化抽奖界面
       this.init()
       this._listener()
-    });
+    })
   },
   methods: {
     // 添加事件监听
-    _listener() {
-      this.c.addEventListener("touchstart", this.eventDown)
-      this.c.addEventListener("touchmove", this.eventMove)
-      this.c.addEventListener("touchend", this.eventUp)
+    _listener () {
+      this.c.addEventListener('touchstart', this.eventDown)
+      this.c.addEventListener('touchmove', this.eventMove)
+      this.c.addEventListener('touchend', this.eventUp)
       // this.c.addEventListener('mousemove', this.eventMove)
       // this.c.addEventListener('mousedown', this.eventDown)
       // this.c.addEventListener('mouseup', this.eventUp)
     },
     // 去除事件监听
-    _removeListener() {
-      this.c.removeEventListener("touchstart", this.eventDown)
-      this.c.removeEventListener("touchmove", this.eventMove)
-      this.c.removeEventListener("touchend", this.eventUp)
+    _removeListener () {
+      this.c.removeEventListener('touchstart', this.eventDown)
+      this.c.removeEventListener('touchmove', this.eventMove)
+      this.c.removeEventListener('touchend', this.eventUp)
     },
     // 初始化画布
-    init() {
-      this.c = document.querySelector("#canvas")
-      this.ctx = this.c.getContext("2d")
+    init () {
+      this.c = document.querySelector('#canvas')
+      this.ctx = this.c.getContext('2d')
       this.initCanvas()
     },
     // 初始化画布
-    initCanvas() {
+    initCanvas () {
       // 遮罩层 放图片
-      this.ctx.globalCompositeOperation = "source-over"
-      const img = document.querySelector("#img")
+      this.ctx.globalCompositeOperation = 'source-over'
+      const img = document.querySelector('#img')
       let that = this
       img.onload = function () {
         // that.ctx.drawImage(img, 0, 0, that.c.clientWidth, that.c.clientHeight)
@@ -82,12 +82,12 @@ export default {
       // this.ctx.fillText('刮一刮', this.c.clientWidth / 2, this.c.clientHeight / 2)
       // this.ctx.globalCompositeOperation = 'destination-out'
     },
-    eventDown(e) {
-      e.preventDefault();
+    eventDown (e) {
+      e.preventDefault()
       // 改变合成属性使得可以使用橡皮擦功能
-      this.ctx.globalCompositeOperation = "destination-out"
+      this.ctx.globalCompositeOperation = 'destination-out'
     },
-    eventUp(e) {
+    eventUp (e) {
       e.preventDefault()
       // 这里判断刮去一半时做处理
       const a = this.ctx.getImageData(0, 0, 320, 150)
@@ -102,15 +102,15 @@ export default {
         // 请求接口判断是否可以抽奖
         // this._isTryToGet();
         // 当刮到一半时，剩余的自动刮开
-        this.ctx.fillStyle = ""
+        this.ctx.fillStyle = ''
         this.ctx.fillRect(0, 0, 320, 150)
       }
     },
-    eventMove(e) {
+    eventMove (e) {
       if (e.changedTouches) {
         e = e.changedTouches[e.changedTouches.length - 1]
       }
-      const topY = document.getElementById("top").offsetTop
+      const topY = document.getElementById('top').offsetTop
       const oX = this.c.offsetLeft
       const oY = this.c.offsetTop + topY
       const x = (e.clientX + document.body.scrollLeft || e.pageX) - oX || 0
@@ -118,16 +118,16 @@ export default {
       this.ctx.beginPath()
       this.ctx.arc(x, y, this.fontem * 0.8, 0, Math.PI * 2, true)
       // 下面3行代码是为了修复部分手机浏览器不支持destination-out
-      this.c.style.display = "none"
-      this.c.style.display = "inherit"
+      this.c.style.display = 'none'
+      this.c.style.display = 'inherit'
       this.ctx.fill()
-    },
+    }
   },
-  destroyed() {
+  destroyed () {
     clearInterval(this.timerClear)
     this._removeListener()
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>

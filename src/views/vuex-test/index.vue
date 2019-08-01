@@ -10,7 +10,7 @@ export default {
   computed: {
     ...mapGetters(['shopCount'])
   },
-  mounted() {
+  mounted () {
     console.log(this.shopCount)
   },
   methods: {
