@@ -7,7 +7,6 @@
           <tr v-for="(week, index) in weeks" :key="index">{{week}}</tr>
         </thead>
         <tbody>
-          <!-- 上个月后几天 -->
           <div
             class="calendar-day"
             :class="pre.type"
@@ -22,19 +21,16 @@
               v-else
               class="lunar-day"
             >{{pre.lunar.lunarDay === 1 ? pre.lunar.lunarMonthChiness : pre.lunar.lunarDayChiness}}</span>
-            <div class="not-appoint" v-show="true">不可预约</div>
-            <div class="visit-res" v-show="false">参观剩余{{pIndex}}人</div>
-            <div class="experience-res" v-show="false">体验剩余{{pIndex}}人</div>
-            <div class="fulled" v-show="false">已满</div>
+
+            <div class="not-appoint">不可预约</div>
+            <div class="experience-res">体验剩余80人</div>
           </div>
-          <!-- 当前月 -->
           <div
             class="calendar-day"
-            :class="[curr.type,
-              curr.lunar.isTody ? 'today' : '',
-              curr.startTime ? 'start-time' : '',
-              curr.endTime ? 'end-time' : '',
-              curr.inRange ? 'in-range' : '']"
+            :class="[
+              curr.type,
+              curr.lunar.isTody ? 'today' : ''
+            ]"
             v-for="(curr, cIndex) in currentDays"
             :key="cIndex + 10"
             @click="select(curr)"
@@ -51,29 +47,13 @@
             <div class="not-appoint" v-show="false">不可预约</div>
             <div class="visit-res">参观剩余{{cIndex}}人</div>
             <div class="experience-res">体验剩余{{cIndex}}人</div>
-            <div class="fulled" v-show="false">已满</div>
           </div>
-          <!-- 下个月前几天 -->
           <div
             class="calendar-day"
             :class="next.type"
             v-for="(next, nIndex) in nextDays"
             :key="nIndex + 50"
-          >
-            <span v-if="next.lunar.isTody" class="is-today">今天</span>
-            <span>{{next.text}}</span>
-            <span v-if="next.festival" class="festival">{{next.festival}}</span>
-            <span v-else-if="next.term" class="term">{{next.term}}</span>
-            <span
-              v-else
-              class="lunar-day"
-            >{{next.lunar.lunarDay === 1 ? next.lunar.lunarMonthChiness : next.lunar.lunarDayChiness}}</span>
-
-            <div class="not-appoint" v-show="false">不可预约</div>
-            <div class="visit-res" v-show="false">参观剩余{{nIndex}}人</div>
-            <div class="experience-res" v-show="false">体验剩余{{nIndex}}人</div>
-            <div class="fulled" v-show="true">已满</div>
-          </div>
+          >{{next.text}}</div>
         </tbody>
       </table>
     </div>
@@ -90,7 +70,7 @@ export default {
       currentDays: [], // 当前月的天数
       nextDays: [], // 补角，下个月的前几天补剩余的空格
       firstDayOfWeek: 0, // 判断这个月的1号是周几
-      rows: 5, // 默认为5列
+      rows: 6, // 默认为6列
       prevMonthDays: 0,
       nextMonthDays: 0,
       currYear: new Date().getFullYear(),
@@ -105,7 +85,7 @@ export default {
     // this.init()
   },
   methods: {
-    init(year = 2019, month = 8) {
+    init(year = 2019, month = 7) {
       let currentMonthDays = new Date(year, month, 0).getDate()
 
       // 获取当前月份天数
@@ -119,22 +99,19 @@ export default {
           lunar: ChineseCalendar.date2lunar(new Date(`${year}-${month}-${i + 1}`)), // 农历
           festival: ChineseCalendar.lunarFestival(new Date(`${year}-${month}-${i + 1}`)), // 节日
           term: ChineseCalendar.lunarTerm(new Date(`${year}-${month}-${i + 1}`)), // 节气
+          // isToday: new Date(`${year}-${month}-${i + 1}`) === new Date(), // 是今天？
+          // isToday, // 是今天？
           type: 'current'
         })
       }
 
       // 获取上个月的天数, 这里有问题， 假如2019-01呢？
       this.prevMonthDays = new Date(year, month - 1, 0).getDate()
-      // 判断当前月的1号是周几
+      // 判断这个月的1号是周几
       this.firstDayOfWeek = new Date(`${year}-${month}-01`).getDay()
-
       // 补角 前几天
       for (let i = 0; i < this.firstDayOfWeek; i++) {
         let days = this.prevMonthDays - this.firstDayOfWeek + i + 1
-        if (month - 1 === 0) {
-          year -= 1
-          month = 13
-        }
         this.prevDays.push({
           date: moment(new Date(`${year}-${month - 1}-${days}`)).format('YYYY-MM-DD'),
           text: this.prevMonthDays - this.firstDayOfWeek + i + 1,
@@ -148,23 +125,51 @@ export default {
       // 补角后几天，这里要判断rows
       this.rows = this.prevDays.length + this.currentDays.length > this.rows * 7 ? 6 : 5
       for (let i = 0; i < this.rows * 7 - this.firstDayOfWeek - this.currentDays.length; i++) {
-        let days = i + 1
-        if (month + 1 > 12) {
-          year += 1
-          month = 0
-        }
         this.nextDays.push({
           text: i + 1,
-          date: moment(new Date(`${year}-${month + 1}-${days}`)).format('YYYY-MM-DD'),
-          lunar: ChineseCalendar.date2lunar(new Date(`${year}-${month + 1}-${days}`)), // 农历
-          festival: ChineseCalendar.lunarFestival(new Date(`${year}-${month + 1}-${days}`)), // 节日
-          term: ChineseCalendar.lunarTerm(new Date(`${year}-${month + 1}-${days}`)), // 节气
           type: 'next'
         })
       }
     },
     select(curr) {
-      console.log(curr)
+      if (!this.startTime && !this.endTime) {
+        this.startTime = curr.date
+      }
+      if (this.startTime && curr.date > this.startTime) {
+        this.endTime = curr.date
+      } else {
+        this.startTime = curr.date
+        this.endTime = ''
+      }
+      // 动态改变样式
+      this.currentDays.map(item => {
+        if (item.date === this.startTime) {
+          this.$set(item, 'startTime', true)
+        } else {
+          this.$set(item, 'startTime', false)
+        }
+        if (item.date === this.endTime) {
+          this.$set(item, 'endTime', true)
+        } else {
+          this.$set(item, 'endTime', false)
+        }
+      })
+      // range范围上色
+      if (this.startTime && this.endTime) {
+        for (let i = 0; i < this.currentDays.length; i++) {
+          if (this.startTime < this.currentDays[i].date && this.endTime > this.currentDays[i].date) {
+            this.currentDays[i].inRange = true
+          } else {
+            this.currentDays[i].inRange = false
+          }
+        }
+      } else {
+        this.currentDays.map(item => {
+          item.inRange = false
+        })
+      }
+      console.log(this.currentDays)
+      // console.log(this.startTime + '===' + this.endTime)
     }
   }
 }
@@ -234,7 +239,7 @@ common() {
 
         .not-appoint {
           common();
-          margin: 0.2rem /* 10/50 */ auto;
+          margin: auto;
           background-color: #C6C6C6;
         }
 
@@ -249,17 +254,6 @@ common() {
           margin: 0.08rem auto 0; /* 4/50 */
           background-color: #FF8C8C;
         }
-
-        .fulled {
-          margin: 0.2rem /* 10/50 */ auto 0;
-          width: 88%;
-          height: 0.32rem; /* 16/50 */
-          line-height: 0.32rem; /* 16/50 */
-          text-align: center;
-          background-color: #C6C6C6;
-          color: #fff;
-          border-radius: 0.06rem; /* 3/50 */
-        }
       }
 
       .prev {
@@ -273,6 +267,15 @@ common() {
       .today {
         color: #3296FF;
         background-color: #EBF5FF;
+      }
+
+      .in-range {
+        background-color: #fcd3cf;
+      }
+
+      .start-time, .end-time {
+        color: #fff;
+        background-color: red;
       }
 
       .next {
