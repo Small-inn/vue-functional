@@ -1,6 +1,36 @@
 <template>
   <div class="calendar">
-    <div class="calendar-header"></div>
+    <div class="calendar-header">
+      <div class="year">
+        <el-date-picker v-model="header.yearValue" type="year" placeholder="选择年"></el-date-picker>
+      </div>
+      <div class="month">
+        <span class="arrow" @click="increase">></span>
+        <el-select class="el_select" v-model="header.month" placeholder="请选择">
+          <el-option
+            v-for="item in header.monthList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+        <span class="arrow" @click="add">></span>
+      </div>
+      <div class="time">
+        <span>时间段：</span>
+        <el-select v-model="header.time" placeholder="请选择">
+          <el-option
+            v-for="item in header.options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <div class="refresh">
+        <el-button type="primary">刷新</el-button>
+      </div>
+    </div>
     <div class="calendar-body">
       <table class="calendar-table">
         <thead>
@@ -85,6 +115,55 @@ import ChineseCalendar from '@/assets/js/ChineseCalendar.js'
 export default {
   data() {
     return {
+      header: {
+        yearValue: '2019',
+        month: `${new Date().getMonth() + 1}月`,
+        monthList: [{
+          value: '1',
+          label: '1月'
+        }, {
+          value: '2',
+          label: '2月'
+        }, {
+          value: '3',
+          label: '3月'
+        }, {
+          value: '4',
+          label: '4月'
+        }, {
+          value: '5',
+          label: '5月'
+        }, {
+          value: '6',
+          label: '6月'
+        }, {
+          value: '7',
+          label: '7月'
+        }, {
+          value: '8',
+          label: '8月'
+        }, {
+          value: '9',
+          label: '9月'
+        }, {
+          value: '10',
+          label: '10月'
+        }, {
+          value: '11',
+          label: '11月'
+        }, {
+          value: '12',
+          label: '12月'
+        }],
+        time: '1',
+        options: [{
+          value: '1',
+          label: '08:30'
+        }, {
+          value: '2',
+          label: '13:30'
+        }],
+      },
       weeks: ['日', '一', '二', '三', '四', '五', '六'],
       prevDays: [], // 补角，上个月的最后几天补到当前个月的1号
       currentDays: [], // 当前月的天数
@@ -101,11 +180,11 @@ export default {
     }
   },
   mounted() {
-    this.init(this.currYear, this.currMonth)
-    // this.init()
+    // this.init(this.currYear, this.currMonth)
+    this.init()
   },
   methods: {
-    init(year = 2019, month = 8) {
+    init(year = 2019, month = 10) {
       let currentMonthDays = new Date(year, month, 0).getDate()
 
       // 获取当前月份天数
@@ -163,13 +242,21 @@ export default {
         })
       }
     },
+    increase() {
+      let countMonth = this.header.month.slice(0, -1)
+      this.header.month = `${countMonth-- === 1 ? 12 : countMonth--}月`
+    },
+    add() {
+      let countMonth = this.header.month.slice(0, -1)
+      this.header.month = `${countMonth++ === 12 ? 1 : countMonth++}月`
+    },
     select(curr) {
       console.log(curr)
     }
   }
 }
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
 common() {
   width: 88%;
   height: 0.24rem; /* 12/50 */
@@ -185,8 +272,43 @@ common() {
   width: 100%;
   border: 1px solid #E8E8E8;
 
+  .calendar-header {
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .month {
+      .el_select {
+        width: 120px;
+      }
+
+      .el-input__inner {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      .arrow {
+        display: inline-block;
+        width: 36px;
+        height: 38px;
+        line-height: 36px;
+        text-align: center;
+        border: 1px solid #E8E8E8;
+        font-family: consolas;
+        font-size: 18px;
+
+        &:first-child {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
   .calendar-table {
     width: 100%;
+    border-top: 1px solid #E8E8E8;
 
     thead {
       display: flex;

@@ -13,7 +13,11 @@ import 'moment/locale/zh-cn' // 设定区域为中国
 import '@nutui/nutui/dist/nutui.css'
 // NutUI.install(Vue)
 
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
 import { Calendar } from '@nutui/nutui'
+Vue.use(ElementUI)
 moment.locale('zh-cn') // 设定区域为中国
 
 Calendar.install(Vue)
