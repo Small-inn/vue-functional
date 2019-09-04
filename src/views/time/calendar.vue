@@ -2,7 +2,14 @@
   <div class="calendar">
     <div class="calendar-header">
       <div class="year">
-        <el-date-picker v-model="header.yearValue" type="year" placeholder="选择年"></el-date-picker>
+        <el-select class="el_select" v-model="header.year" placeholder="请选择">
+          <el-option
+            v-for="item in header.yearList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </div>
       <div class="month">
         <span class="arrow" @click="increase">></span>
@@ -27,11 +34,11 @@
           ></el-option>
         </el-select>
       </div>
-      <div class="refresh">
+      <div class="refresh" @click="refresh">
         <el-button type="primary">刷新</el-button>
       </div>
     </div>
-    <div class="calendar-body">
+    <div class="calendar-body" v-loading="loading">
       <table class="calendar-table">
         <thead>
           <tr v-for="(week, index) in weeks" :key="index">{{week}}</tr>
@@ -40,6 +47,7 @@
           <!-- 上个月后几天 -->
           <div
             class="calendar-day"
+            @click="change(pre)"
             :class="pre.type"
             v-for="(pre, pIndex) in prevDays"
             :key="pIndex"
@@ -62,9 +70,7 @@
             class="calendar-day"
             :class="[curr.type,
               curr.lunar.isTody ? 'today' : '',
-              curr.startTime ? 'start-time' : '',
-              curr.endTime ? 'end-time' : '',
-              curr.inRange ? 'in-range' : '']"
+              curr.isChecked ? 'actived' : '']"
             v-for="(curr, cIndex) in currentDays"
             :key="cIndex + 10"
             @click="select(curr)"
@@ -86,6 +92,7 @@
           <!-- 下个月前几天 -->
           <div
             class="calendar-day"
+            @click="change(next)"
             :class="next.type"
             v-for="(next, nIndex) in nextDays"
             :key="nIndex + 50"
@@ -116,54 +123,56 @@ export default {
   data() {
     return {
       header: {
-        yearValue: '2019',
+        year: '2019年',
+        yearList: [],
         month: `${new Date().getMonth() + 1}月`,
         monthList: [{
-          value: '1',
+          value: 1,
           label: '1月'
         }, {
-          value: '2',
+          value: 2,
           label: '2月'
         }, {
-          value: '3',
+          value: 3,
           label: '3月'
         }, {
-          value: '4',
+          value: 4,
           label: '4月'
         }, {
-          value: '5',
+          value: 5,
           label: '5月'
         }, {
-          value: '6',
+          value: 6,
           label: '6月'
         }, {
-          value: '7',
+          value: 7,
           label: '7月'
         }, {
-          value: '8',
+          value: 8,
           label: '8月'
         }, {
-          value: '9',
+          value: 9,
           label: '9月'
         }, {
-          value: '10',
+          value: 10,
           label: '10月'
         }, {
-          value: '11',
+          value: 11,
           label: '11月'
         }, {
-          value: '12',
+          value: 12,
           label: '12月'
         }],
-        time: '1',
+        time: 1,
         options: [{
-          value: '1',
+          value: 1,
           label: '08:30'
         }, {
-          value: '2',
+          value: 2,
           label: '13:30'
         }],
       },
+      loading: false,
       weeks: ['日', '一', '二', '三', '四', '五', '六'],
       prevDays: [], // 补角，上个月的最后几天补到当前个月的1号
       currentDays: [], // 当前月的天数
@@ -179,19 +188,35 @@ export default {
       endTime: '' // 选择结束时间
     }
   },
+  created() {
+    this.header.yearList = this.afterTwyears()
+  },
   mounted() {
-    // this.init(this.currYear, this.currMonth)
-    this.init()
+    this.init(this.currYear, this.currMonth)
   },
   methods: {
-    init(year = 2019, month = 10) {
+    // 年往后推20年
+    afterTwyears(num = 20) {
+      let res = []
+      for (let i = 0; i < num; i++) {
+        res.push({
+          value: new Date().getFullYear() + i,
+          label: `${new Date().getFullYear() + i}年`
+        })
+      }
+      return res
+    },
+    init(years = 2019, months = 8) {
+      this.refresh()
+      // 对参数进行处理，类型转换
+      let year = parseInt(years.toString().match(/^年/) ? years.slice(0, -1) : years)
+      let month = parseInt(months.toString().match(/^月/) ? months.slice(0, -1) : months)
+
+      this.currentDays = []
       let currentMonthDays = new Date(year, month, 0).getDate()
 
       // 获取当前月份天数
       for (let i = 0; i < currentMonthDays; i++) {
-        // let isToday = (new Date().getFullYear() == new Date(`${year}-${month}-${i + 1}`).getFullYear()) &&
-        //   (new Date().getMonth() == new Date(`${year}-${month}-${i + 1}`).getMonth()) &&
-        //   (new Date().getDate() == new Date(`${year}-${month}-${i + 1}`).getDate())
         this.currentDays.push({
           date: moment(new Date(`${year}-${month}-${i + 1}`)).format('YYYY-MM-DD'),
           text: i + 1,
@@ -208,13 +233,14 @@ export default {
       this.firstDayOfWeek = new Date(`${year}-${month}-01`).getDay()
 
       // 补角 前几天
+      let prevDays = []
       for (let i = 0; i < this.firstDayOfWeek; i++) {
         let days = this.prevMonthDays - this.firstDayOfWeek + i + 1
         if (month - 1 === 0) {
           year -= 1
           month = 13
         }
-        this.prevDays.push({
+        prevDays.push({
           date: moment(new Date(`${year}-${month - 1}-${days}`)).format('YYYY-MM-DD'),
           text: this.prevMonthDays - this.firstDayOfWeek + i + 1,
           lunar: ChineseCalendar.date2lunar(new Date(`${year}-${month - 1}-${days}`)), // 农历
@@ -223,16 +249,19 @@ export default {
           type: 'prev'
         })
       }
+      this.prevDays = prevDays
 
       // 补角后几天，这里要判断rows
       this.rows = this.prevDays.length + this.currentDays.length > this.rows * 7 ? 6 : 5
+      let nextDays = []
       for (let i = 0; i < this.rows * 7 - this.firstDayOfWeek - this.currentDays.length; i++) {
         let days = i + 1
         if (month + 1 > 12) {
           year += 1
           month = 0
         }
-        this.nextDays.push({
+
+        nextDays.push({
           text: i + 1,
           date: moment(new Date(`${year}-${month + 1}-${days}`)).format('YYYY-MM-DD'),
           lunar: ChineseCalendar.date2lunar(new Date(`${year}-${month + 1}-${days}`)), // 农历
@@ -241,17 +270,65 @@ export default {
           type: 'next'
         })
       }
+      this.nextDays = nextDays
+
     },
+
     increase() {
-      let countMonth = this.header.month.slice(0, -1)
-      this.header.month = `${countMonth-- === 1 ? 12 : countMonth--}月`
+      let countMonth = this.header.month.toString().match(/月/) ? this.header.month.slice(0, -1) : this.header.month
+      this.header.month = `${countMonth-- === 1 ? 12 : countMonth}月`
+
+      if (countMonth === 0) {
+        let year = parseInt(this.header.year.toString().match(/年/) ? this.header.year.slice(0, -1) : this.header.year)
+        year--
+        this.header.year = `${year}年`
+      }
     },
+
     add() {
-      let countMonth = this.header.month.slice(0, -1)
-      this.header.month = `${countMonth++ === 12 ? 1 : countMonth++}月`
+      let countMonth = this.header.month.toString().match(/月/) ? this.header.month.slice(0, -1) : this.header.month
+      this.header.month = `${countMonth++ === 12 ? 1 : countMonth}月`
+
+      if (countMonth === 13) {
+        let year = parseInt(this.header.year.toString().match(/年/) ? this.header.year.slice(0, -1) : this.header.year)
+        year++
+        this.header.year = `${year}年`
+      }
+    },
+    refresh() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 1000)
+    },
+    change(item) {
+      console.log(item)
+      let year = item.date.split('-')[0]
+      let month = item.date.split('-')[1]
+      this.header.year = `${year}年`
+      this.header.month = `${parseInt(month)}月`
+      this.init(year, month)
     },
     select(curr) {
       console.log(curr)
+      this.currentDays.map(item => {
+        if (curr.date === item.date) {
+          this.$set(item, 'isChecked', true)
+        } else {
+          this.$set(item, 'isChecked', false)
+        }
+      })
+    }
+  },
+  watch: {
+    'header.year': function (value) {
+      this.init(value, this.header.month)
+    },
+    'header.month': function (value) {
+      this.init(this.header.year, value)
+    },
+    'header.time': function (value) {
+      this.init(this.header.year, this.header.month)
     }
   }
 }
@@ -319,6 +396,10 @@ common() {
         padding: 20px 0;
         border-right: 1px solid #E8E8E8;
         border-bottom: 1px solid #E8E8E8;
+
+        &:first-child, &:last-child {
+          background-color: #EAF4FF;
+        }
       }
     }
 
@@ -333,6 +414,12 @@ common() {
         text-align: right;
         border-right: 1px solid #E8E8E8;
         border-bottom: 1px solid #E8E8E8;
+
+        &:hover {
+          border: 1px solid #3296FF;
+          box-shadow: 0 0 5px #3296FF;
+          position: relative;
+        }
 
         span {
           padding: 0 0.08rem; /* 4/50 */
@@ -395,6 +482,13 @@ common() {
       .today {
         color: #3296FF;
         background-color: #EBF5FF;
+      }
+
+      .actived {
+        color: #3296FF;
+        background-color: #EBF5FF;
+        // background-color: #3296FF;
+        border: 1px solid #3296FF;
       }
 
       .next {
