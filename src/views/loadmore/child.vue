@@ -1,16 +1,14 @@
 <template>
-    <div class="more"
-        @touchstart="touchstart"
-        @touchmove="touchmove"
-        @touchend="touchend">
-        <slot/>
-        <p class="load-more">{{tip}}</p>
-    </div>
+  <div class="more" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+    <slot />
+    <p class="load-more">{{tip}}</p>
+  </div>
 </template>
 <script>
 import { scrollToBottom } from '@/assets/js/util.js'
+import { reject } from 'q'
 export default {
-  data () {
+  data() {
     return {
       list: [], // 数据
       sy: 0, // y轴落点位置
@@ -21,7 +19,7 @@ export default {
     }
   },
   computed: {
-    tip () {
+    tip() {
       switch (this.status) {
         case 0:
           return '向上滚动加载更多...'
@@ -35,23 +33,32 @@ export default {
     }
   },
   methods: {
-    touchstart (e) {
+    touchstart(e) {
       e = e || window.event
       this.sy = e.touches[0].pageY
     },
-    touchmove (e) {
+    touchmove(e) {
       this.dy = e.touches[0].pageY
     },
-    touchend (e) {
+    touchend(e) {
       console.log(this.sy - this.dy)
       if (this.sy - this.dy > this.trgY && scrollToBottom && this.status === 0) {
         this.page++
-        this.load()
+        this.status = 1
+        this.load().then(res => {
+          console.log(res)
+          this.status = res
+        })
       }
     },
-    load () {
-      this.status = 1
-      let para = { page: this.page, size: 10 }
+    load() {
+      // 1.0
+      return new Promise((resolve, reject) => {
+        setTimeout(() => { resolve(0) }, 2000)
+      })
+      // 2.0
+      // this.status = 1
+      // let para = { page: this.page, size: 10 }
       // getData(para).then(res => {
       //   if (res.status === 'OK') {
       //     this.status = 0
@@ -68,7 +75,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-  .more
-    width 100%
-    min-height 100%
+.more
+  width 100%
+  min-height 100%
 </style>

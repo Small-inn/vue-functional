@@ -9,7 +9,6 @@
             @choose="setChooseValue"
             :animation="`nutSlideUp`"
             :start-date="null"
-            :end-date="null"
         >
         </nut-calendar>
     </div>
@@ -19,7 +18,8 @@ export default {
   data () {
     return {
       isVisible: false,
-      date: null
+      // date: null
+      date: ''
     }
   },
   methods: {
