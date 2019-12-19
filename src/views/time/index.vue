@@ -1,6 +1,8 @@
 <template>
   <div class="time">
-    <p v-show="false">{{time}}</p>
+    <p v-show="false">
+      {{time}}
+    </p>
     <calendar></calendar>
   </div>
 </template>
