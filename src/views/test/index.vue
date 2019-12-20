@@ -15,6 +15,7 @@ export default {
     console.log(name)
     console.log(age)
     console.log(sport2)
+    this.getArr()
   },
   methods: {
     getObj() {
@@ -26,6 +27,16 @@ export default {
           sport: 'basket'
         }
       }
+    },
+    getArr() {
+      let [num1, num2, ...otherarr] = [1, 2, 3, 4]
+      let [num3, , , num4] = [5, 6, 7, 8]
+
+      console.log(num1)
+      console.log(num2)
+      console.log(otherarr)
+      console.log(num3)
+      console.log(num4)
     }
   }
 }
