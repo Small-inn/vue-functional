@@ -19,7 +19,8 @@ export default {
         { path: '/upload', title: '上传' },
         { path: '/time', title: '时间' },
         { path: '/', title: '数据' },
-        { path: '/vuex', title: '状态' }
+        { path: '/vuex', title: '状态' },
+        { path: '/test', title: '测试' }
       ]
     }
   },

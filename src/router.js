@@ -62,6 +62,13 @@ const routes = [
     meta: {
       title: '时间'
     }
+  },
+  {
+    path: '/test',
+    component: () => import('./views/test/index.vue'),
+    meta: {
+      title: 'demo测试'
+    }
   }
 ]
 export default routes
