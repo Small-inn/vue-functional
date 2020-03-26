@@ -170,7 +170,7 @@ export default {
         }, {
           value: 2,
           label: '13:30'
-        }],
+        }]
       },
       loading: false,
       weeks: ['日', '一', '二', '三', '四', '五', '六'],
@@ -271,7 +271,6 @@ export default {
         })
       }
       this.nextDays = nextDays
-
     },
 
     increase() {

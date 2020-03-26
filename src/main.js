@@ -4,6 +4,7 @@ import App from './App.vue'
 import routes from './router'
 import store from './store/index'
 import axios from 'axios'
+import bus from './assets/plugins/bus'
 
 import '@/assets/css/index.styl'
 
@@ -22,6 +23,8 @@ moment.locale('zh-cn') // 设定区域为中国
 
 Calendar.install(Vue)
 
+// EventBus
+Vue.use(bus)
 // 创建一个不被拦截的axios实例，用于文件上传
 let instance = axios.create({
   headers: { 'Content-Type': 'multipart/form-data' }
@@ -30,7 +33,7 @@ Vue.prototype.instance = instance
 
 Vue.config.productionTip = false
 
-Vue.prototype.$bus = new Vue()
+// Vue.prototype.$bus = new Vue()
 
 Vue.use(Router)
 

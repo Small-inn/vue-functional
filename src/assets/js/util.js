@@ -30,18 +30,21 @@ export const toTop = () => {
 // scrollHeight为内容可视区域的高度加上溢出（滚动）的距离。
 // 由这些dom属性可知：滚动条到底部的公式为：scrollTop + clientHeight == scrollHeight
 export const getScrollTop = () => {
-  let scrollTop = 0
-  let bodyScrollTop = 0
-  let documentScrollTop = 0
-  if (document.body) {
-    bodyScrollTop = document.body.scrollTop
-  }
-  if (document.documentElement) {
-    documentScrollTop = document.documentElement.scrollTop
-  }
-  scrollTop =
-    bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop
-  return scrollTop
+  // 1.0
+  // let scrollTop = 0
+  // let bodyScrollTop = 0
+  // let documentScrollTop = 0
+  // if (document.body) {
+  //   bodyScrollTop = document.body.scrollTop
+  // }
+  // if (document.documentElement) {
+  //   documentScrollTop = document.documentElement.scrollTop
+  // }
+  // scrollTop =
+  //   bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop
+  // return scrollTop
+  // 2.0
+  return document.documentElement.scrollTop || document.body.scrollTop || 0
 }
 // 为0时，则为滚动到最顶部
 export const getScrollHeight = () => {
@@ -62,7 +65,7 @@ export const getScrollHeight = () => {
 }
 export const getClientHeight = () => {
   let windowHeight = 0
-  if (document.compatMode == 'CSS1Compat') {
+  if (document.compatMode === 'CSS1Compat') {
     windowHeight = document.documentElement.clientHeight
   } else {
     windowHeight = document.body.clientHeight
