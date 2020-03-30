@@ -26,6 +26,8 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "html-webpack-plugin": "^4.0.3",
+    "page-skeleton-webpack-plugin": "^0.10.12",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.21"
