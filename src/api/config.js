@@ -1,8 +1,21 @@
 import axios from 'axios'
 export const CDN_BASE_URL = 'http://cntaipingapp.oss-cn-hangzhou.aliyuncs.com/oldage/img/'
 
+let baseURL = ''
+switch (process.env.NODE_ENV) {
+  case 'development':
+    baseURL = ''
+    break
+  case 'test':
+    baseURL = ''
+    break
+  case 'production':
+    baseURL = ''
+    break
+}
+
 const http = axios.create({
-  baseURL: './',
+  baseURL: baseURL,
   timeout: 5000
 })
 
