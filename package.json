@@ -25,12 +25,16 @@
     "@vue/cli-service": "^3.5.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
+    "compression-webpack-plugin": "^4.0.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "html-webpack-plugin": "^4.0.3",
+    "image-webpack-loader": "^6.0.0",
     "page-skeleton-webpack-plugin": "^0.10.12",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue-template-compiler": "^2.5.21"
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "vue-template-compiler": "^2.5.21",
+    "webpack-bundle-analyzer": "^3.7.0"
   }
 }
