@@ -2,7 +2,13 @@
     <div class="home">
         <!-- <router-link class="cal-btn" to="/calendar" tag="div">日历</router-link> -->
         <div class="box">
-            <router-link class="box-item" v-for="(item, index) in linkList" :key="index" :to="item.path" tag="div">{{item.title}}</router-link>
+            <router-link
+              class="box-item"
+              v-for="(item, index) in linkList"
+              :key="index" :to="item.path"
+              tag="div">
+              {{item.title}}
+            </router-link>
         </div>
     </div>
 </template>
