@@ -6,7 +6,6 @@
 </template>
 <script>
 import { scrollToBottom } from '@/assets/js/util.js'
-import { reject } from 'q'
 export default {
   data() {
     return {
